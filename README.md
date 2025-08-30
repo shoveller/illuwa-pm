@@ -1,21 +1,25 @@
 # 일루와 프로젝트 초기화 가이드
+일루와 소프트의 개발 도구를 자동으로 설정하는 claude 커맨드 모음입니다.  
+[automazeio/ccpm](https://github.com/automazeio/ccpm) 과 함께 동작하도록 설계했지만, 단독으로도 설치하고 실행할 수 있습니다.  
 
-프로젝트 타입에 따라 개발 도구를 자동으로 설정하는 가이드입니다.
+## 인스톨
+- ccpm
+```shell
+curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/ccpm.sh | bash
+```
+- illuwa
+```shell
+curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/illuwa.sh | bash
+```
 
-## 빠른 시작
-
-인스톨
-ccpm: `curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/ccpm.sh | bash`
-illuwa: `curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/illuwa.sh | bash`
-
-저장소 클론 후:
+## 저장소 클론 후에
 
 1. **CCPM 초기화** (Claude Code Project Management):
    ```bash
    /pm:init
    ```
 
-2. **개발 도구 설정** (프로젝트 타입 자동 감지):
+2. **일루와 개발 도구 설정** (프로젝트 타입 자동 감지):
    ```bash
    /illuwa:setup
    ```
