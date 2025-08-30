@@ -8,6 +8,12 @@ if [ -f "package.json" ]; then
   echo "📦 Node.js 프로젝트가 감지되었습니다"
   echo ""
   
+  if [ -f ".claude/scripts/illuwa/install-tsconfig.sh" ]; then
+    echo "⚙️ TypeScript 설정 중..."
+    bash .claude/scripts/illuwa/install-tsconfig.sh
+    echo ""
+  fi
+  
   if [ -f ".claude/scripts/illuwa/install-prettier.sh" ]; then
     echo "🎨 Prettier 설정 중..."
     bash .claude/scripts/illuwa/install-prettier.sh
