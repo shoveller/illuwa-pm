@@ -4,6 +4,10 @@
 
 ## 빠른 시작
 
+인스톨
+ccpm: `curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/ccpm.sh | bash`
+illuwa: `curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/illuwa.sh | bash`
+
 저장소 클론 후:
 
 1. **CCPM 초기화** (Claude Code Project Management):

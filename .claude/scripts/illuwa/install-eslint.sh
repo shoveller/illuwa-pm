@@ -18,11 +18,15 @@ if command -v pnpm &> /dev/null; then
   elif [ "$IS_REMIX" = "true" ]; then
     echo "  Remix 3 project detected"  
     echo "  Installing Remix ESLint packages..."
-    pnpm add -D eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
+    pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks
+    pnpm add -D eslint-plugin-react-refresh
+    pnpm add -D globals
   elif [ "$IS_REACT" = "true" ]; then
     echo "  React project detected"
     echo "  Installing React ESLint packages..."
     pnpm add -D eslint @eslint/js eslint-plugin-react eslint-plugin-react-hooks typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
+    pnpm add -D eslint-plugin-react-refresh
+    pnpm add -D globals
   else
     echo "  TypeScript project detected"
     echo "  Installing TypeScript ESLint packages..."
@@ -40,9 +44,13 @@ elif command -v npm &> /dev/null; then
   if [ "$IS_NEXT" = "true" ]; then
     npm install --save-dev eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint
   elif [ "$IS_REMIX" = "true" ]; then
-    npm install --save-dev eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
+    npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks
+    npm install --save-dev eslint-plugin-react-refresh
+    npm install --save-dev globals
   elif [ "$IS_REACT" = "true" ]; then
     npm install --save-dev eslint @eslint/js eslint-plugin-react eslint-plugin-react-hooks typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
+    npm install --save-dev eslint-plugin-react-refresh
+    npm install --save-dev globals
   else
     npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
   fi
