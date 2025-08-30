@@ -1,5 +1,71 @@
 # 타입스크립트 코딩 스타일
 
+## 변수는 불변이므로 const 로만 선언한다
+
+#### 나쁜 예
+```js
+let x = 1
+x += 1
+let sum = 0
+for (let i = 0; i < 5; i++) sum += i
+```
+
+#### 좋은 예
+```js
+const x = 1
+const newX = x + 1
+const sum = [0, 1, 2, 3, 4].reduce((a, b) => a + b)
+```
+
+## 반복문은 배열 메소드로 작성한다
+
+#### 나쁜 예
+```js
+const users = ['a', 'b']
+users.push('c')           // 가장 마지막에 추가
+users.unshift('z')      // 가장 앞에 추가
+users.pop()               // 마지막 제거
+users.shift()             // 첫번째 제거
+
+const doubled = []
+for (let i = 0; i < users.length; i++) {
+  doubled.push(users[i] + '!')
+}
+
+// 중간 요소 조작
+users.splice(1, 2, 'x', 'y')
+users.reverse()
+users.fill('empty', 1, 3)
+```
+
+#### 좋은 예
+```js
+const users = ['a', 'b']
+
+// 추가
+const withNewUser = [...users, 'c']
+const withPriority = ['z', ...users]
+
+// 제거
+const withoutLast = users.slice(0, -1)
+const withoutFirst = users.slice(1)
+
+// 변환
+const doubled = users.map(user => user + '!')
+
+// 교체
+const replaced = [
+  ...users.slice(0, 1),
+  'x',
+  'y',
+  ...users.slice(3)
+]
+
+// 순서 역전은 불변객체로
+const reversed = [...users].reverse()
+const cleared = Array(users.length).fill('empty')
+```
+
 ## 함수는 가능하면 프로토타입이 없는 화살표 함수로 구현한다
 
 #### 나쁜 예
