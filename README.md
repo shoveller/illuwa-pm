@@ -12,7 +12,7 @@ curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/ccp
 curl -sSL https://raw.githubusercontent.com/shoveller/illuwa-pm/main/install/illuwa.sh | bash
 ```
 
-## 저장소 클론 후에
+## 저장소 클론 후에 claude 콘솔에서
 
 1. **CCPM 초기화** (Claude Code Project Management):
    ```bash
