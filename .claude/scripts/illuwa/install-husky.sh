@@ -42,7 +42,7 @@ if command -v jq &> /dev/null; then
   # Prettier 스크립트 확인/추가
   if ! jq -e '.scripts.prettier' package.json >/dev/null 2>&1; then
     echo "    Adding prettier script..."
-    jq '.scripts.prettier = "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache --config prettier.config.mjs"' package.json > package.json.tmp && mv package.json.tmp package.json
+    jq '.scripts.prettier = "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache"' package.json > package.json.tmp && mv package.json.tmp package.json
   fi
   
   # TypeScript 체크 스크립트 확인/추가
@@ -58,7 +58,7 @@ if command -v jq &> /dev/null; then
 else
   echo "  jq not available, please manually add these scripts to package.json:"
   echo "    \"eslint\": \"eslint --fix --ignore-pattern .gitignore --cache --cache-location ./node_modules/.cache/eslint .\""
-  echo "    \"prettier\": \"prettier --write \\\"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\\\" --cache --config prettier.config.mjs\""
+  echo "    \"prettier\": \"prettier --write \\\"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\\\" --cache\""
   echo "    \"type:check\": \"tsc --noEmit\""
   echo "    \"format\": \"run-s type:check prettier eslint\""
 fi

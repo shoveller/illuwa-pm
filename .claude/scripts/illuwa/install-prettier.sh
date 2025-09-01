@@ -8,7 +8,7 @@ if command -v pnpm &> /dev/null; then
   
   # 레시피 기반 Prettier 및 플러그인 설치
   echo "  Installing Prettier with recommended plugins..."
-  pnpm add -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-css-order prettier-plugin-classnames
+  pnpm add -D prettier @trivago/prettier-plugin-sort-imports prettier-plugin-css-order prettier-plugin-classnames
   
   # Tailwind CSS 프로젝트인지 확인
   if grep -q "tailwindcss" package.json; then
@@ -17,7 +17,7 @@ if command -v pnpm &> /dev/null; then
 
 elif command -v npm &> /dev/null; then
   echo "  Using npm package manager"
-  npm install --save-dev prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-css-order prettier-plugin-classnames
+  npm install --save-dev prettier @trivago/prettier-plugin-sort-imports prettier-plugin-css-order prettier-plugin-classnames
   
   if grep -q "tailwindcss" package.json; then
     echo "  Tailwind CSS detected, this will be handled by prettier-plugin-classnames"
@@ -37,40 +37,34 @@ elif [ -f ".prettierrc" ]; then
   cp .prettierrc .prettierrc.backup
 fi
 
-echo "  Creating prettier.config.mjs configuration (레시피 기반)..."
+echo "  Creating .prettierrc.json configuration (레시피 기반)..."
 
-# 레시피 기반 prettier.config.mjs 생성
-cat > prettier.config.mjs << 'EOF'
-/** @type {import('prettier').Config} */
-const config = {
-  endOfLine: "lf",
-  semi: false,
-  singleQuote: true,
-  tabWidth: 2,
-  trailingComma: "none",
-  // import sorts
-  plugins: [
-    '@ianvs/prettier-plugin-sort-imports',
-    'prettier-plugin-css-order',
-    'prettier-plugin-classnames'
+# 레시피 기반 .prettierrc.json 생성
+cat > .prettierrc.json << 'EOF'
+{
+  "endOfLine": "lf",
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "plugins": [
+    "prettier-plugin-css-order",
+    "prettier-plugin-classnames",
+    "@trivago/prettier-plugin-sort-imports"
   ],
-  importOrder: [
-    '^react',
-    '^next',
-    '^react-router',
-    '',
-    '<BUILTIN_MODULES>',
-    '<THIRD_PARTY_MODULES>',
-    '',
-    '.css$',
-    '.scss$',
-    '^[.]'
+  "importOrder": [
+    "^react",
+    "^next",
+    "^react-router",
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    ".css$",
+    ".scss$",
+    "^[.]"
   ],
-  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy']
-  // import sort[e]
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
-
-export default config;
 EOF
 
 # .prettierignore 파일 생성
@@ -93,10 +87,10 @@ fi
 echo "  Adding optimized prettier script to package.json..."
 if command -v jq &> /dev/null; then
   # 레시피의 최적화된 prettier 명령어 사용
-  jq '.scripts.prettier = "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache --config prettier.config.mjs"' package.json > package.json.tmp && mv package.json.tmp package.json
+  jq '.scripts.prettier = "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache"' package.json > package.json.tmp && mv package.json.tmp package.json
 else
   echo "  jq not available, please manually add this script to package.json:"
-  echo "    \"prettier\": \"prettier --write \\\"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\\\" --cache --config prettier.config.mjs\""
+  echo "    \"prettier\": \"prettier --write \\\"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\\\" --cache\""
 fi
 
 # VS Code 설정 추가 (선택사항)
@@ -122,7 +116,7 @@ fi
 echo "  ✅ Prettier 설정이 완료되었습니다!"
 echo "  레시피 특징:"
 echo "    ✨ prettier.config.mjs 설정 (한글 주석 포함)"
-echo "    ✨ Import 정렬 (@ianvs/prettier-plugin-sort-imports)"
+echo "    ✨ Import 정렬 (@trivago/prettier-plugin-sort-imports)"
 echo "    ✨ CSS 속성 정렬 (prettier-plugin-css-order)"
 echo "    ✨ 클래스명 정렬 (prettier-plugin-classnames)"
 echo "    ✨ 캐시 최적화 및 다양한 파일 형식 지원"

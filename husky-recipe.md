@@ -19,7 +19,7 @@ pnpm husky init
 	- `type:check` : 타입스크립트의 타입 체크 명령에 커스텀 옵션을 추가해서 실행한다.
 ```diff
 "eslint": "eslint --fix --ignore-pattern .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-"prettier": "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache --config prettier.config.mjs",
+"prettier": "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache",
 "type:check": "tsc",
 ```
 
