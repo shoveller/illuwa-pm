@@ -37,7 +37,7 @@ repos:
       hooks:
         - id: ruff-check
           name: ruff check
-          entry: uv run ruff check --fix
+          entry: uv run ruff check --fix --unsafe-fixes
           language: system
           types: [python]
           # 수정 후 자동으로 staged 영역에 추가
@@ -55,7 +55,7 @@ repos:
 
         - id: mypy
           name: mypy
-          entry: uv run mypy
+          entry: uv run mypy .
           language: system
           types: [python]
 EOF

@@ -180,40 +180,6 @@ else
 EOF
 fi
 
-# pre-commit hook 생성 (python-recipe.md 기반)
-if [ -f ".pre-commit-config.yaml" ]; then
-  echo "  .pre-commit-config.yaml exists, consider adding hooks manually"
-else
-  echo "  Creating .pre-commit-config.yaml with Ruff + MyPy hooks..."
-  cat > .pre-commit-config.yaml << 'EOF'
-repos:
-    - repo: local
-      hooks:
-        - id: ruff-check
-          name: ruff check
-          entry: uv run ruff check --fix
-          language: system
-          types: [python]
-          # 수정 후 자동으로 staged 영역에 추가
-          pass_filenames: false
-          always_run: true
-
-        - id: ruff-format
-          name: ruff format
-          entry: uv run ruff format
-          language: system
-          types: [python]
-          # 수정 후 자동으로 staged 영역에 추가
-          pass_filenames: false
-          always_run: true
-
-        - id: mypy
-          name: mypy
-          entry: uv run mypy
-          language: system
-          types: [python]
-EOF
-fi
 
 echo "  ✅ MyPy 설정이 완료되었습니다!"
 echo "  사용법:"
