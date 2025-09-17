@@ -697,13 +697,13 @@ grit/
 ### biome.json 실제 설정
 ```json
 "plugins": [
-  "./grit/functional-no-let.grit",
-  "./grit/functional-no-var.grit",
-  "./grit/functional-no-loops.grit",
-  "./grit/functional-no-while.grit",
-  "./grit/functional-immutable-data.grit",
-  "./grit/functional-no-pop.grit",
-  "./grit/custom-style-rules.grit"
+"./grit/functional-no-let.grit",
+"./grit/functional-no-var.grit",
+"./grit/functional-no-loops.grit",
+"./grit/functional-no-while.grit",
+"./grit/functional-immutable-data.grit",
+"./grit/functional-no-pop.grit",
+"./grit/custom-style-rules.grit"
 ]
 ```
 
