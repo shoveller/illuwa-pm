@@ -74,12 +74,12 @@ project-root/
 새로운 프로젝트 타입을 추가하려면 `.claude/scripts/illuwa/setup-dev-tools.sh` 파일을 편집하고 해당 스택의 감지 로직을 추가하세요.
 
 ## mcp 서버 추가
-- context7 + playwright
+- `context7 + playwright`
 ```shell
 claude --mcp-config .claude/mcp/.mcp.dev.json --strict-mcp-config
 ```
 
-- serena + zen
+- `serena + zen`
 ```shell
 claude --mcp-config .claude/mcp/.mcp.plan.json --strict-mcp-config
 ```
