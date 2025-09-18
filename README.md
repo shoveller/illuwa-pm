@@ -69,25 +69,19 @@ project-root/
             └── install-mypy.sh                # Python 타입 체킹
 ```
 
-## illuwa:setup 명령 파일 예제
-
-`.claude/commands/illuwa/setup.md` 파일:
-
-```markdown
----
-allowed-tools: Bash
----
-
-프로젝트 타입을 감지하고 적절한 개발 도구를 설정합니다:
-
-```bash
-bash .claude/scripts/illuwa/setup-dev-tools.sh
-```
-
-- 전체 출력을 표시합니다
-- 줄임 없이 모든 내용을 보여줍니다
-```
-
 ## 커스터마이징
 
 새로운 프로젝트 타입을 추가하려면 `.claude/scripts/illuwa/setup-dev-tools.sh` 파일을 편집하고 해당 스택의 감지 로직을 추가하세요.
+
+## mcp 서버 추가
+- context7 + playwright
+```shell
+claude --mcp-config .claude/mcp/.mcp.dev.json --strict-mcp-config
+```
+
+- serena + zen
+```shell
+claude --mcp-config .claude/mcp/.mcp.plan.json --strict-mcp-config
+```
+
+- 
