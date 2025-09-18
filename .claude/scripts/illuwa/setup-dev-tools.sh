@@ -42,6 +42,13 @@ if [ -f "package.json" ]; then
     fi
   fi
 
+  # VSCode 설정 파일 생성
+  if [ -f ".claude/scripts/illuwa/modify-vscode.sh" ]; then
+    echo "🆚 VSCode 설정 중..."
+    bash .claude/scripts/illuwa/modify-vscode.sh
+    echo ""
+  fi
+
 # Python 프로젝트 감지
 elif [ -f "pyproject.toml" ] || [ -f "requirements.txt" ] || [ -f "setup.py" ]; then
   echo "🐍 Python 프로젝트가 감지되었습니다"
