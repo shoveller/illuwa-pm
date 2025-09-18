@@ -32,6 +32,16 @@ if [ -f "package.json" ]; then
     echo ""
   fi
 
+  # Next.js 프로젝트 확인 (package.json에서 next 의존성 확인)
+  if grep -q '"next"' package.json 2>/dev/null; then
+    echo "⚛️ Next.js 프로젝트가 감지되었습니다"
+    if [ -f ".claude/scripts/illuwa/modify-nextjs.sh" ]; then
+      echo "🎨 Next.js CSS 타입 설정 중..."
+      bash .claude/scripts/illuwa/modify-nextjs.sh
+      echo ""
+    fi
+  fi
+
 # Python 프로젝트 감지
 elif [ -f "pyproject.toml" ] || [ -f "requirements.txt" ] || [ -f "setup.py" ]; then
   echo "🐍 Python 프로젝트가 감지되었습니다"
