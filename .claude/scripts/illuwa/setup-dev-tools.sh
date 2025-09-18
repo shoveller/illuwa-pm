@@ -3,6 +3,13 @@
 echo "🔍 프로젝트 타입 감지 중..."
 echo "======================================"
 
+# Git 기본 설정
+if [ -f ".claude/scripts/illuwa/modify-git.sh" ]; then
+  echo "📝 Git 기본 설정 중..."
+  bash .claude/scripts/illuwa/modify-git.sh
+  echo ""
+fi
+
 # Node.js 프로젝트 감지
 if [ -f "package.json" ]; then
   echo "📦 Node.js 프로젝트가 감지되었습니다"
