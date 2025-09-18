@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.message' | trans -b :ko | xargs -I {} say \"{}\""
+          }
+        ]
+      }
+    ]
+  }
+}
