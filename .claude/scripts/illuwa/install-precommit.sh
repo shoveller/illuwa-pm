@@ -58,6 +58,8 @@ repos:
           entry: uv run mypy .
           language: system
           types: [python]
+          pass_filenames: false
+          always_run: true
 EOF
 
 # git hooks 설치
