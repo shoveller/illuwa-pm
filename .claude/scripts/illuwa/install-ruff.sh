@@ -125,37 +125,6 @@ ignore = [
 EOF
 fi
 
-# .ruff.toml 파일 생성 (독립 설정 파일로도 사용 가능)
-if [ ! -f ".ruff.toml" ]; then
-  echo "  Creating .ruff.toml as backup configuration..."
-  cat > .ruff.toml << 'EOF'
-target-version = "py38"
-line-length = 88
-
-[lint]
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
-    "C4", # flake8-comprehensions
-    "UP", # pyupgrade
-]
-ignore = [
-    "E501",  # line too long, handled by black
-    "B008",  # do not perform function calls in argument defaults
-    "C901",  # too complex
-]
-
-[lint.per-file-ignores]
-"__init__.py" = ["F401"]
-"test_*.py" = ["B018"]
-
-[lint.isort]
-known-first-party = ["src"]
-EOF
-fi
 
 # VS Code 설정 추가
 if [ ! -d ".vscode" ]; then
