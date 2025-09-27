@@ -88,6 +88,8 @@ ignore = [
 force-sort-within-sections = true
 # 각 그룹 사이에 빈 줄 추가
 split-on-trailing-comma = true
+# from import 합치기
+combine-as-imports = true
 EOF
   fi
 else
