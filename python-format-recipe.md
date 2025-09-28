@@ -75,31 +75,19 @@ uv add mypy --dev
 [tool.mypy]
 # 대상 Python 버전 - 타입 시스템 기능 호환성 기준
 python_version = '3.12'
-# 패키지 기준점 명시 - 중복 모듈 오류 방지
+# 패키지 기준점 명시 - 중복 모듈 오류 방지 (./main.py vs main.py 구분)
 explicit_package_bases = true
-# 네임스페이스 패키지 사용 - 모듈 구조 명확화
-namespace_packages = true
-# Any 타입 반환 경고 - 타입 안전성 향상
+# Any 타입 반환 경고 - 타입 안전성 향상 (너무 관대한 타입 사용 방지)
 warn_return_any = true
 # 사용되지 않는 MyPy 설정 경고 - 설정 파일 정리 유도
 warn_unused_configs = true
 # 변수 재정의 금지 - 실수로 같은 이름 변수 재할당 방지
 allow_redefinition = false
-# 검사할 파일 패턴 명시 - 불필요한 파일 제외
-files = ["*.py"]
-# 제외할 패턴 - 임시 파일, 빌드 파일 등
-exclude = [
-    "build/",
-    "dist/",
-    ".venv/",
-    "__pycache__/",
-    ".*\\.egg-info/",
-]
 
 # ===================================================================
 # 타입 검사 엄격도 설정 - 프로젝트 성숙도에 따라 조정
 # ===================================================================
-# 타입 어노테이션 없는 함수 정의 허용 - 점진적 타입 도입
+# 타입 어노테이션 없는 함수 정의 허용 - 점진적 타입 도입을 위해 관대하게 설정
 disallow_untyped_defs = false
 # 타입 어노테이션 없는 함수 호출 허용 - 서드파티 라이브러리 호환성
 disallow_untyped_calls = false
@@ -108,7 +96,7 @@ disallow_any_expr = false
 # 타입 정보 없는 라이브러리 체크 시도 - 가능한 모든 타입 오류 감지
 ignore_missing_imports = false
 
-# 플러그인 설정 - 현재 없음
+# 플러그인 설정 - Django, SQLAlchemy 등 프레임워크별 특수 처리 (현재 없음)
 plugins = []
 
 # ===================================================================
@@ -172,3 +160,70 @@ repos:
           pass_filenames: false
           always_run: true
 ```
+
+# Makefile 생성 및 format 명령 구현 계획
+
+실행 순서 분석
+
+1. 최적의 실행 순서
+
+1. uv run ruff check --fix --unsafe-fixes  # 린트 문제 자동 수정
+2. uv run ruff format                      # 코드 포맷팅
+3. uv run mypy .                          # 타입 체크
+
+순서 선택 이유:
+- Ruff check 먼저: import 순서, 미사용 변수 등 구조적 문제 해결
+- Ruff format 다음: 코드 수정 후 일관된 포맷팅 적용
+- MyPy 마지막: 정리된 코드에 대해 타입 검사 수행
+
+2. Makefile 구조 계획
+
+# 기본 설정
+.PHONY: format lint type-check clean help
+.DEFAULT_GOAL := help
+
+# 메인 format 명령
+format:
+@echo "🔧 Running ruff check with fixes..."
+uv run ruff check --fix --unsafe-fixes
+@echo "✨ Running ruff format..."
+uv run ruff format
+@echo "🔍 Running mypy type check..."
+uv run mypy .
+@echo "✅ All formatting and checks completed!"
+
+# 개별 명령들 (필요시 개별 실행용)
+lint:
+uv run ruff check --fix --unsafe-fixes
+
+style:
+uv run ruff format
+
+type-check:
+uv run mypy .
+
+# 도움말
+help:
+@echo "Available commands:"
+@echo "  format     - Run full code formatting pipeline"
+@echo "  lint       - Run ruff linting with fixes"
+@echo "  style      - Run ruff formatting only"
+@echo "  type-check - Run mypy type checking only"
+
+3. 추가 고려사항
+
+에러 처리:
+- 각 명령이 실패하면 전체 프로세스 중단
+- Make의 기본 동작으로 자동 처리됨
+
+확장 가능성:
+- test: 테스트 실행
+- clean: 캐시 파일 정리
+- install: 의존성 설치
+- pre-commit: Git hook 실행
+
+사용법:
+make format      # 전체 포맷팅 파이프라인
+make lint        # 린팅만
+make type-check  # 타입 체크만
+make help        # 도움말

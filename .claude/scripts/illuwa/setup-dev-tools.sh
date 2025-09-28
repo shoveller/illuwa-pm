@@ -79,6 +79,12 @@ elif [ -f "pyproject.toml" ] || [ -f "requirements.txt" ] || [ -f "setup.py" ]; 
     echo ""
   fi
 
+  if [ -f ".claude/scripts/illuwa/install-makefile.sh" ]; then
+    echo "📋 Makefile 설정 중..."
+    bash .claude/scripts/illuwa/install-makefile.sh
+    echo ""
+  fi
+
 else
   echo "❓ 알 수 없는 프로젝트 타입입니다"
   echo "   지원하는 프로젝트 타입:"
