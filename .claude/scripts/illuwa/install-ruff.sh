@@ -67,6 +67,9 @@ select = [
     'I',   # isort - import 문 정렬 및 그룹화 (표준/서드파티/로컬 분리)
     'UP',  # pyupgrade - 레거시 문법을 현대 Python으로 업그레이드
     'B',   # flake8-bugbear - 흔한 버그 패턴 감지 (무한루프, 잘못된 비교)
+    'C4',  # flake8-comprehensions - list/dict comprehension 최적화
+    'SIM', # flake8-simplify - 코드 단순화 제안
+    'RET', # flake8-return - return 문 스타일 개선
     'RUF', # Ruff 전용 규칙 - 성능 및 모범 사례
 ]
 
@@ -76,6 +79,17 @@ ignore = [
     'D',    # pydocstyle 전체 - docstring 검사는 선택적 (문서화 정책에 따라)
     'ANN',  # flake8-annotations 전체 - 타입 어노테이션은 mypy가 더 정확히 처리
 ]
+
+# ===================================================================
+# Import 정렬 세부 설정
+# ===================================================================
+[tool.ruff.lint.isort]
+# Import 그룹 분리 (표준 라이브러리 → 서드파티 → 로컬)
+force-sort-within-sections = true
+# 각 그룹 사이에 빈 줄 추가
+split-on-trailing-comma = true
+# from import 합치기
+combine-as-imports = true
 EOF
   fi
 else
