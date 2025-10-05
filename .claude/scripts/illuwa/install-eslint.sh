@@ -18,9 +18,7 @@ if command -v pnpm &> /dev/null; then
   elif [ "$IS_REMIX" = "true" ]; then
     echo "  Remix 3 project detected"
     echo "  Installing Remix ESLint packages..."
-    pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest
-    pnpm add -D eslint-plugin-react-refresh
-    pnpm add -D globals
+    pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest globals
   elif [ "$IS_REACT" = "true" ]; then
     echo "  React project detected"
     echo "  Installing React ESLint packages..."
@@ -44,9 +42,7 @@ elif command -v npm &> /dev/null; then
   if [ "$IS_NEXT" = "true" ]; then
     npm install --save-dev eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint zod@latest
   elif [ "$IS_REMIX" = "true" ]; then
-    npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest
-    npm install --save-dev eslint-plugin-react-refresh
-    npm install --save-dev globals
+    npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest globals
   elif [ "$IS_REACT" = "true" ]; then
     npm install --save-dev eslint @eslint/js eslint-plugin-react eslint-plugin-react-hooks typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports
     npm install --save-dev eslint-plugin-react-refresh
@@ -194,7 +190,6 @@ elif [ "$IS_REMIX" = "true" ]; then
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 import functional from 'eslint-plugin-functional'
@@ -292,7 +287,6 @@ export default tseslint.config([
             js.configs.recommended,
             tseslint.configs.recommended,
             reactHooks.configs['recommended-latest'],
-            reactRefresh.configs.vite,
         ],
         languageOptions: {
             ecmaVersion: 'latest',

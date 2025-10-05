@@ -36,7 +36,7 @@ export default eslintConfig;
 - 최근까지 설치할 때 자동으로 eslint 설정을 추가해 주었는데 요즘은 아예 생략이 되서 나온다.
 	- vite 버전으로 나온 타입스크립트 레시피를 사용하기로 한다. 
 ```sh
-pnpm i -D eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint zod@latest
+pnpm i -D eslint @eslint/js globals eslint-plugin-react-hooks typescript-eslint zod@latest
 ```
 
 - 프로젝트 루트에 `eslint.config.mjs` 를 수동으로 추가한다.
@@ -45,7 +45,6 @@ pnpm i -D eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-reac
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 
@@ -56,8 +55,7 @@ export default tseslint.config([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
+      reactHooks.configs['recommended-latest']
     ],
     languageOptions: {
       ecmaVersion: 'latest',
@@ -155,7 +153,6 @@ export default eslintConfig;
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 import functional from 'eslint-plugin-functional'
@@ -186,7 +183,6 @@ export default tseslint.config([
             js.configs.recommended,
             tseslint.configs.recommended,
             reactHooks.configs['recommended-latest'],
-            reactRefresh.configs.vite,
         ],
         languageOptions: {
             ecmaVersion: 'latest',
@@ -298,7 +294,6 @@ export default eslintConfig;
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 import functional from 'eslint-plugin-functional'
@@ -349,7 +344,6 @@ export default tseslint.config([
             js.configs.recommended,
             tseslint.configs.recommended,
             reactHooks.configs['recommended-latest'],
-            reactRefresh.configs.vite,
         ],
         languageOptions: {
             ecmaVersion: 'latest',
@@ -519,7 +513,6 @@ export default eslintConfig
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 import functional from 'eslint-plugin-functional'
@@ -606,7 +599,6 @@ export default tseslint.config([
             js.configs.recommended,
             tseslint.configs.recommended,
             reactHooks.configs['recommended-latest'],
-            reactRefresh.configs.vite,
         ],
         languageOptions: {
             ecmaVersion: 'latest',
@@ -845,7 +837,6 @@ export default tseslint.config([
             js.configs.recommended,
             tseslint.configs.recommended,
             reactHooks.configs['recommended-latest'],
-            reactRefresh.configs.vite,
         ],
         languageOptions: {
             ecmaVersion: 'latest',
