@@ -22,24 +22,131 @@ When analyzing or modifying code, you must enforce these non-negotiable principl
 1. **Variable Declaration**: Use ONLY `const` - never `let` or `var`
     - All variables must be immutable
     - `let` and `var` create side effects and are forbidden
+    - When `let` modification is needed, extract to pure function that returns the value
 
-2. **Control Flow**: Replace branching with early returns
+2. **Function Declaration**: Use ONLY arrow functions - never `function` keyword
+    - ❌ Bad: `function getName() {}`
+    - ✅ Good: `const getName = () => {}`
+    - Always use arrow function syntax with explicit `const` declaration
+
+3. **Return Statements**: Always use braces with return
+    - ❌ Bad: `if (!a) return`
+    - ✅ Good: `if (!a) { return }`
+    - Never write return statements without curly braces
+
+4. **Variable Naming**: Use positive naming only
+    - ❌ Bad: `notFailed`, `isNotValid`, `disableCheck`
+    - ✅ Good: `succeeded`, `isValid`, `enableCheck`
+    - Always express conditions in positive form
+
+5. **Control Flow**: Replace branching with early returns and pure functions
     - Eliminate `switch` statements, `else` statements, and ternary operators
     - Use early return patterns to minimize branching
     - Abstract complex logic into pure functions
+    - When `else` modifies variables, extract to pure function instead
+    - Each pure function should have single responsibility
 
-3. **Iteration**: Use array methods instead of loops
+6. **Iteration**: Use array methods instead of loops
     - Replace `while` and `for` loops with functional array methods
     - Exception: `while` loops for intentional infinite loops only
     - Avoid mutating array methods:
-        - Replace `push()` with `concat()` or spread operator
-        - Replace `pop()` with `slice()`
-        - Replace `shift()` with `slice()`
-        - Replace `unshift()` with `concat()` or spread operator
+        - Replace `push()` with `concat()` or spread operator `[...arr, item]`
+        - Replace `pop()` with `slice(0, -1)`
+        - Replace `shift()` with `slice(1)`
+        - Replace `unshift()` with spread operator `[item, ...arr]`
         - Replace `splice()` with `slice()` and spread operator
         - Replace `reverse()` with `[...array].reverse()`
-        - Replace `fill()` with `map()`
-        - Replace `copyWithin()` with `map()`
+        - Replace `fill()` with `Array(n).fill(value)` or `map()`
+
+**Critical Pattern: Eliminating Side Effects from let and else**
+
+When you see code using `let` with `else` to modify variables, this ALWAYS creates side effects and MUST be refactored:
+
+❌ **Bad Pattern** (let + else creates side effects):
+```typescript
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = "Oops!";
+  let details = "An unexpected error occurred.";
+  let stack: string | undefined;
+
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? "404" : "Error";
+    details = error.status === 404
+      ? "The requested page could not be found."
+      : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
+
+  return (
+    <main>
+      <h1>{message}</h1>
+      <p>{details}</p>
+      {stack && <pre><code>{stack}</code></pre>}
+    </main>
+  );
+}
+```
+
+✅ **Good Pattern** (pure functions eliminate side effects):
+```typescript
+const getMessage = (error: unknown) => {
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return '404'
+  }
+
+  if (isRouteErrorResponse(error)) {
+    return 'Error'
+  }
+
+  return 'Oops!'
+}
+
+const getDetails = (error: unknown) => {
+  const details = 'An unexpected error occurred.'
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return 'The requested page could not be found.'
+  }
+
+  if (isRouteErrorResponse(error)) {
+    return error.statusText || details
+  }
+
+  if (import.meta.env.DEV && error && error instanceof Error) {
+    return error.message
+  }
+
+  return details
+}
+
+const getStack = (error: unknown) => {
+  if (import.meta.env.DEV && error && error instanceof Error) {
+    return error.stack
+  }
+
+  return
+}
+
+export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
+  const stack = getStack(error)
+
+  return (
+    <main>
+      <h1>{getMessage(error)}</h1>
+      <p>{getDetails(error)}</p>
+      {stack && <pre><code>{stack}</code></pre>}
+    </main>
+  )
+}
+```
+
+**Key Benefits of the Good Pattern:**
+- Each helper function is pure (no side effects)
+- Variables never change after declaration
+- Logic is isolated and testable
+- Some code duplication is acceptable to maintain purity
 
 **Your Process:**
 1. Analyze code for violations of functional programming principles
