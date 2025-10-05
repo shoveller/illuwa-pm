@@ -12,6 +12,7 @@ pnpm husky init
 ```
 
 # husky 와 eslint , prettier , typescript 통합
+## next.js 의 경우
 - 프로젝트에 `eslint` , `prettier` , `typescript` 가 모두 설치되어 있는지 확인한다.
 - `package.json` 에 각각을 실행하는 명령어가 있는지 확인하고, 없다면 추가한다.
 	- `eslint` : eslint 명령어에실행에 커스텀 옵션을 추가해서 실행한다.
@@ -23,14 +24,34 @@ pnpm husky init
 "type:check": "tsc",
 ```
 
+## react router framework mode(remix) 의 경우
+- 프로젝트에 `eslint` , `prettier` , `typescript` 가 모두 설치되어 있는지 확인한다.
+- `package.json` 에 각각을 실행하는 명령어가 있는지 확인하고, 없다면 추가한다.
+    - `eslint` : eslint 명령어에실행에 커스텀 옵션을 추가해서 실행한다.
+    - `prettier` : prettier 명령어에실행에 커스텀 옵션을 추가해서 실행한다.
+    - `typecheck` : 프로젝트를 스케폴드 할 때 생성하게 되어 있다. 없을 경우에만 추가한다.
+```diff
+"eslint": "eslint --fix --ignore-pattern .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+"prettier": "prettier --write \"**/*.{ts,tsx,cjs,mjs,json,html,css,js,jsx}\" --cache",
+"typecheck": "react-router typegen && tsc",
+```
+
 - 위 명령어를 한번에 실행하기 위해 [npm-run-all]() 패키지를 설치한다.
 ```sh
 pnpm i npm-run-all -D
 ```
 
+# npm script 수정
+## next.js 의 경우
 - `package.json` 에 위 명령어를 한번에 실행하는 명령어를 추가한다.
 ```diff
 "format": "run-s type:check prettier eslint"
+```
+
+## react router framework mode(remix) 의 경우
+- `package.json` 에 위 명령어를 한번에 실행하는 명령어를 추가한다.
+```diff
+"format": "run-s typecheck prettier eslint"
 ```
 
 - `.husky/pre-commit` 의 내용을 아래의 코드로 바꾼다.
