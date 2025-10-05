@@ -8,17 +8,17 @@ if command -v pnpm &> /dev/null; then
   
   # 프로젝트 타입 감지
   IS_NEXT=$(grep -q "\"next\"" package.json && echo "true" || echo "false")
-  IS_REMIX=$(grep -q "@remix-run" package.json && echo "true" || echo "false")
+  IS_REMIX=$(grep -q "\"react-router\"" package.json && echo "true" || echo "false")
   IS_REACT=$(grep -q "\"react\"" package.json && echo "true" || echo "false")
   
   if [ "$IS_NEXT" = "true" ]; then
     echo "  Next.js 15 project detected"
     echo "  Installing Next.js ESLint packages..."
-    pnpm add -D eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint
+    pnpm add -D eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint zod@latest
   elif [ "$IS_REMIX" = "true" ]; then
-    echo "  Remix 3 project detected"  
+    echo "  Remix 3 project detected"
     echo "  Installing Remix ESLint packages..."
-    pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks
+    pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest
     pnpm add -D eslint-plugin-react-refresh
     pnpm add -D globals
   elif [ "$IS_REACT" = "true" ]; then
@@ -38,13 +38,13 @@ elif command -v npm &> /dev/null; then
   
   # 프로젝트 타입 감지 (npm 버전)
   IS_NEXT=$(grep -q "\"next\"" package.json && echo "true" || echo "false")
-  IS_REMIX=$(grep -q "@remix-run" package.json && echo "true" || echo "false")
+  IS_REMIX=$(grep -q "\"react-router\"" package.json && echo "true" || echo "false")
   IS_REACT=$(grep -q "\"react\"" package.json && echo "true" || echo "false")
   
   if [ "$IS_NEXT" = "true" ]; then
-    npm install --save-dev eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint
+    npm install --save-dev eslint @eslint/eslintrc eslint-plugin-react-hooks @next/eslint-plugin-next eslint-plugin-functional eslint-plugin-unused-imports typescript-eslint zod@latest
   elif [ "$IS_REMIX" = "true" ]; then
-    npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks
+    npm install --save-dev eslint @eslint/js typescript-eslint eslint-plugin-functional eslint-plugin-unused-imports eslint-plugin-react-hooks zod@latest
     npm install --save-dev eslint-plugin-react-refresh
     npm install --save-dev globals
   elif [ "$IS_REACT" = "true" ]; then

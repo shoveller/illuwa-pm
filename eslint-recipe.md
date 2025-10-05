@@ -9,7 +9,7 @@
 	- 레거시 룰을 flatconfig 에 맞춰 다시 만들지 않고 `FlatCompat` 이라는 컨버터를 사용해서 재활용하는 것이 특징이다.
 - 그런데 내가 테스트를 했을 때는 peer dependacy 가 심각하게 빠져 있었다. 버전에 따라 이런 에러는 생길 수도 있지.
 ```sh
-pnpm i -D eslint-plugin-react-hooks @next/eslint-plugin-next
+pnpm i -D eslint-plugin-react-hooks @next/eslint-plugin-next zod@latest
 ```
 
 ```js
@@ -36,7 +36,7 @@ export default eslintConfig;
 - 최근까지 설치할 때 자동으로 eslint 설정을 추가해 주었는데 요즘은 아예 생략이 되서 나온다.
 	- vite 버전으로 나온 타입스크립트 레시피를 사용하기로 한다. 
 ```sh
-pnpm i -D eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint
+pnpm i -D eslint @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint zod@latest
 ```
 
 - 프로젝트 루트에 `eslint.config.mjs` 를 수동으로 추가한다.
@@ -624,13 +624,7 @@ export default tseslint.config([
 
 # ignore pattern 추가
 - 린팅에서 제외할 파일은 계속 늘어날 것이기 때문에 이렇게 추상화를 하면 좋다.
-```js
-const ignorePatterns = {
-  name: 'ignore-patterns',
-  // 목적파일을 저장하는 디렉토리를 추가
-  ignores: ['**/*.d.ts', '**/*.d.mts', '**/*.d.cts', '.next']
-}
-```
+- `globalIgnores()` 함수를 사용하여 패턴을 지정한다.
 
 ## next 15
 - 적용하면 아래와 같은 모습이 된다.
@@ -641,6 +635,7 @@ import { FlatCompat } from '@eslint/eslintrc'
 import functional from 'eslint-plugin-functional'
 import unusedImports from 'eslint-plugin-unused-imports'
 import tseslint from 'typescript-eslint'
+import { globalIgnores } from 'eslint/config'
 
 // eslint-disable-next-line @typescript-eslint/no-shadow
 const __filename = fileURLToPath(import.meta.url)
@@ -724,18 +719,23 @@ const customCodeStyles = {
   }
 }
 
-const ignorePatterns = {
-  name: 'ignore-patterns',
-  // 목적파일을 저장하는 디렉토리를 추가
-  ignores: ['**/*.d.ts', '**/*.d.mts', '**/*.d.cts', '.next']
-}
-
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  globalIgnores([
+    '**/*.d.ts',
+    '**/*.d.mts',
+    '**/*.d.cts',
+    'build/**/*',
+    'dist/**/*',
+    'node_modules/**/*',
+    '.next/**/*',
+    '.react-router/**/*',
+    'eslint.config.mjs',
+    'prettier.config.mjs'
+  ]),
   functionalStyles,
   unUsedImportsStyles,
-  customCodeStyles,
-  ignorePatterns
+  customCodeStyles
 ]
 
 export default eslintConfig
@@ -826,14 +826,19 @@ const functionalStyles = {
     }
 }
 
-const ignorePatterns = {
-  name: 'ignore-patterns',
-  // 목적파일을 저장하는 디렉토리를 추가
-  ignores: ['**/*.d.ts', '**/*.d.mts', '**/*.d.cts', '.next']
-}
-
 export default tseslint.config([
-    globalIgnores(['dist']),
+    globalIgnores([
+      '**/*.d.ts',
+      '**/*.d.mts',
+      '**/*.d.cts',
+      'build/**/*',
+      'dist/**/*',
+      'node_modules/**/*',
+      '.next/**/*',
+      '.react-router/**/*',
+      'eslint.config.mjs',
+      'prettier.config.mjs'
+    ]),
     {
         files: ['**/*.{ts,tsx}'],
         extends: [
@@ -852,7 +857,6 @@ export default tseslint.config([
     },
     functionalStyles,
     unUsedImportsStyles,
-    customCodeStyles,
-    ignorePatterns
+    customCodeStyles
 ])
 ```
