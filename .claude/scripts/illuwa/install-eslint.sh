@@ -270,6 +270,7 @@ const functionalStyles = {
 
 export default tseslint.config([
     globalIgnores([
+      'apps/web/.react-router/types/**/*.ts',
       '**/*.d.ts',
       '**/*.d.mts',
       '**/*.d.cts',
@@ -278,6 +279,7 @@ export default tseslint.config([
       'node_modules/**/*',
       '.next/**/*',
       '.react-router/**/*',
+      '**/.react-router/**/*',
       'eslint.config.mjs',
       'prettier.config.mjs'
     ]),
