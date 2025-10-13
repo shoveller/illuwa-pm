@@ -80,6 +80,7 @@ coverage
 *.log
 .DS_Store
 .git
+*.d.ts
 EOF
 fi
 

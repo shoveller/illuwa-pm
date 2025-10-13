@@ -19,10 +19,10 @@ cat > Makefile << 'EOF'
 
 # 🎯 메인 format 명령 - 전체 코드 품질 파이프라인
 format:
-	@echo "🔧 Running ruff check with fixes..."
-	uv run ruff check --fix --unsafe-fixes
 	@echo "✨ Running ruff format..."
 	uv run ruff format
+	@echo "🔧 Running ruff check with fixes..."
+	uv run ruff check --fix --unsafe-fixes
 	@echo "🔍 Running mypy type check..."
 	uv run mypy .
 	@echo "✅ All formatting and checks completed!"
