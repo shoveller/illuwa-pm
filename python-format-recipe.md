@@ -23,7 +23,7 @@ target-version = "py312"
 # 한 줄 최대 길이 - 가독성과 유지보수성 균형점 (PEP 8 권장: 79, 현대적: 88-100)
 line-length = 88
 # 들여쓰기 칸수 - 일관된 코드 스타일 (2칸: 간결, 4칸: 표준)
-indent-width = 2
+indent-width = 4
 
 # ===================================================================
 # 코드 포매팅 규칙 - 자동 스타일 통일
@@ -55,6 +55,17 @@ ignore = [
     'D',    # pydocstyle 전체 - docstring 검사는 선택적 (문서화 정책에 따라)
     'ANN',  # flake8-annotations 전체 - 타입 어노테이션은 mypy가 더 정확히 처리
 ]
+
+# ===================================================================
+# Import 정렬 세부 설정
+# ===================================================================
+[tool.ruff.lint.isort]
+# Import 그룹 분리 (표준 라이브러리 → 서드파티 → 로컬)
+force-sort-within-sections = true
+# Trailing comma가 있을 때 import를 여러 줄로 분리
+split-on-trailing-comma = true
+# 같은 모듈의 from-import를 하나로 합치기
+combine-as-imports = true
 ```
 
 ## inteliJ 통합
@@ -93,8 +104,14 @@ disallow_untyped_defs = false
 disallow_untyped_calls = false
 # Any 타입 표현식 허용 - 초기 개발 단계에서는 유연성 우선
 disallow_any_expr = false
-# 타입 정보 없는 라이브러리 체크 시도 - 가능한 모든 타입 오류 감지
-ignore_missing_imports = false
+# 타입 정보 없는 라이브러리 무시 - 서드파티 라이브러리 호환성 (true = 무시)
+ignore_missing_imports = true
+# 타입 없는 함수의 내부 정의 체크 비활성화 - 개발 초기 단계에서 유연성 우선
+check_untyped_defs = false
+# 사용되지 않는 type: ignore 주석 경고 비활성화 - 점진적 타입 도입 과정 유연성
+warn_unused_ignores = false
+# 변수 타입 어노테이션 요구 완화 - LangChain 체인 등 복잡한 타입 처리
+disallow_incomplete_defs = false
 
 # 플러그인 설정 - Django, SQLAlchemy 등 프레임워크별 특수 처리 (현재 없음)
 plugins = []
@@ -114,6 +131,14 @@ module = [
     'distutils.*'      # 배포 유틸리티
 ]
 ignore_missing_imports = true
+
+# LangChain 라이브러리 - 타입 정의가 불완전하므로 관대하게 처리
+[[tool.mypy.overrides]]
+module = [
+    'langchain_core.*',
+    'langchain_openai.*',
+]
+ignore_errors = true
 ```
 ## inteliJ 통합
 - https://plugins.jetbrains.com/plugin/25888-mypy
@@ -132,33 +157,33 @@ uv run pre-commit install
 - 프로젝트 루트에 `.pre-commit-config.yaml` 을 추가. 
 ```yaml
 repos:
-    - repo: local
-      hooks:
-        - id: ruff-check
-          name: ruff check
-          entry: uv run ruff check --fix --unsafe-fixes
-          language: system
-          types: [python]
-          # 수정 후 자동으로 staged 영역에 추가
-          pass_filenames: false
-          always_run: true
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix --unsafe-fixes
+        language: system
+        types: [python]
+        # 수정 후 자동으로 staged 영역에 추가
+        pass_filenames: false
+        always_run: true
 
-        - id: ruff-format
-          name: ruff format
-          entry: uv run ruff format
-          language: system
-          types: [python]
-          # 수정 후 자동으로 staged 영역에 추가
-          pass_filenames: false
-          always_run: true
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+        # 수정 후 자동으로 staged 영역에 추가
+        pass_filenames: false
+        always_run: true
 
-        - id: mypy
-          name: mypy
-          entry: uv run mypy .
-          language: system
-          types: [python]
-          pass_filenames: false
-          always_run: true
+      - id: mypy
+        name: mypy
+        entry: uv run mypy .
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
 ```
 
 # Makefile 생성 및 format 명령 구현 계획
