@@ -44,7 +44,7 @@ target-version = "py312"
 # 한 줄 최대 길이 - 가독성과 유지보수성 균형점 (PEP 8 권장: 79, 현대적: 88-100)
 line-length = 88
 # 들여쓰기 칸수 - 일관된 코드 스타일 (2칸: 간결, 4칸: 표준)
-indent-width = 2
+indent-width = 4
 
 # ===================================================================
 # 코드 포매팅 규칙 - 자동 스타일 통일
@@ -67,9 +67,6 @@ select = [
     'I',   # isort - import 문 정렬 및 그룹화 (표준/서드파티/로컬 분리)
     'UP',  # pyupgrade - 레거시 문법을 현대 Python으로 업그레이드
     'B',   # flake8-bugbear - 흔한 버그 패턴 감지 (무한루프, 잘못된 비교)
-    'C4',  # flake8-comprehensions - list/dict comprehension 최적화
-    'SIM', # flake8-simplify - 코드 단순화 제안
-    'RET', # flake8-return - return 문 스타일 개선
     'RUF', # Ruff 전용 규칙 - 성능 및 모범 사례
 ]
 
@@ -104,7 +101,7 @@ target-version = "py312"
 # 한 줄 최대 길이 - 가독성과 유지보수성 균형점 (PEP 8 권장: 79, 현대적: 88-100)
 line-length = 88
 # 들여쓰기 칸수 - 일관된 코드 스타일 (2칸: 간결, 4칸: 표준)
-indent-width = 2
+indent-width = 4
 
 # ===================================================================
 # 코드 포매팅 규칙 - 자동 스타일 통일

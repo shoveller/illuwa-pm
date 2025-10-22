@@ -99,8 +99,14 @@ disallow_untyped_defs = false
 disallow_untyped_calls = false
 # Any 타입 표현식 허용 - 초기 개발 단계에서는 유연성 우선
 disallow_any_expr = false
-# 타입 정보 없는 라이브러리 체크 시도 - 가능한 모든 타입 오류 감지
-ignore_missing_imports = false
+# 타입 정보 없는 라이브러리 무시 - 서드파티 라이브러리 호환성
+ignore_missing_imports = true
+# 타입 없는 함수의 내부 정의 체크 비활성화 - 개발 초기 단계에서 유연성 우선
+check_untyped_defs = false
+# 사용되지 않는 type: ignore 주석 경고 비활성화 - 점진적 타입 도입 과정 유연성
+warn_unused_ignores = false
+# 변수 타입 어노테이션 요구 완화 - LangChain 체인 등 복잡한 타입 처리
+disallow_incomplete_defs = false
 
 # 플러그인 설정 - Django, SQLAlchemy 등 프레임워크별 특수 처리 (현재 없음)
 plugins = []
@@ -120,6 +126,14 @@ module = [
     'distutils.*'      # 배포 유틸리티
 ]
 ignore_missing_imports = true
+
+# LangChain 라이브러리 - 타입 정의가 불완전하므로 관대하게 처리
+[[tool.mypy.overrides]]
+module = [
+    'langchain_core.*',
+    'langchain_openai.*',
+]
+ignore_errors = true
 EOF
 
     # Django 감지시 플러그인 추가
@@ -154,8 +168,14 @@ disallow_untyped_defs = False
 disallow_untyped_calls = False
 # Any 타입 표현식 허용 - 초기 개발 단계에서는 유연성 우선
 disallow_any_expr = False
-# 타입 정보 없는 라이브러리 체크 시도 - 가능한 모든 타입 오류 감지
-ignore_missing_imports = False
+# 타입 정보 없는 라이브러리 무시 - 서드파티 라이브러리 호환성
+ignore_missing_imports = True
+# 타입 없는 함수의 내부 정의 체크 비활성화 - 개발 초기 단계에서 유연성 우선
+check_untyped_defs = False
+# 사용되지 않는 type: ignore 주석 경고 비활성화 - 점진적 타입 도입 과정 유연성
+warn_unused_ignores = False
+# 변수 타입 어노테이션 요구 완화 - LangChain 체인 등 복잡한 타입 처리
+disallow_incomplete_defs = False
 
 # ===================================================================
 # 모듈별 예외 규칙 - 특정 모듈에 대한 맞춤 설정
@@ -169,6 +189,13 @@ ignore_missing_imports = True
 
 # 테스트 파일 - 모든 타입 오류 무시 (테스트 코드는 유연성 우선)
 [mypy-tests.*]
+ignore_errors = True
+
+# LangChain 라이브러리 - 타입 정의가 불완전하므로 관대하게 처리
+[mypy-langchain_core.*]
+ignore_errors = True
+
+[mypy-langchain_openai.*]
 ignore_errors = True
 EOF
 
